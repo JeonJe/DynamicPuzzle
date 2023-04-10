@@ -8,7 +8,7 @@ export default function Ready() {
       <Head>
         <title>Dynamic Puzzle</title>
       </Head>
-      <IndexBGM />
+      {/* <IndexBGM /> */}
       <RoomList />
     </>
   );

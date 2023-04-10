@@ -5,7 +5,6 @@
 *.7z
 
 # dependencies
-/node_modules
 node_modules/
 /.pnp
 .pnp.js
@@ -45,4 +44,3 @@ next-env.d.ts
 # mp4
 *.mp4
 
-package-lock.json

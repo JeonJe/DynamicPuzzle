@@ -329,7 +329,7 @@ export default function WebRTC() {
       </button> */}
       <div className="hidden h-screen" id="face">
         <Ceremony />
-        <GameBGM prevPlayingState={true} />
+        {/* <GameBGM prevPlayingState={true} /> */}
         <div className={`flex justify-center`}>
           <video className={`${styles.gamepanMy} w-1/2 hidden rounded-2xl z-50`} id="peerface" autoPlay playsInline ref={peerVideoRef}></video>
           <video className={`${styles.gamepanPeer} w-1/2 hidden rounded-2xl z-50`} id="myface" autoPlay playsInline ref={userVideoRef}></video>
