@@ -1,7 +1,9 @@
 import Head from "next/head";
 import BagicHome from "@/components/PageElements/BagicHome";
 import IndexBGM from "@/components/PageElements/IndexBGM";
-import Link from "next/link";
+import SignUpButton from '@/components/PageElements/auth/SignUpButton';
+import LogInButton from '@/components/PageElements/auth/LogInButton';
+
 
 export default function Home() {
   const iconClass = "bg-[url('../public/images/whitevolume.png')]";
@@ -20,13 +22,9 @@ export default function Home() {
       <div className="absolute justify-end items-end flex w-1/5 h-4/5 z-7">
         <BagicHome />
       </div>
-      <div>
-        <Link href="/signup">
-          <button className="z-10 absolute m-4 px-4 py-2 text-white bg-blue-500 rounded-md">
-            회원가입
-          </button>
-
-        </Link>
+      <div className="flex justify-end justify-items-center">
+      <LogInButton />
+      <SignUpButton/>
       </div>
     </>
   );
