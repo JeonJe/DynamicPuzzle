@@ -1,12 +1,11 @@
 import Head from "next/head";
-import RoomList from "@/components/WebRTC/RoomList";
+import RankingBoard from "@/components/PageElements/Ranking";
 import IndexBGM from "@/components/PageElements/IndexBGM";
 import LogoutButton from "@/components/PageElements/auth/LogoutButton";
-import RankingButton from "@/components/PageElements/auth/RankingButton";
+import RoomListButton from "@/components/PageElements/auth/RoomListButton";
 import withAuth from "@/components/PageElements/auth/withAuth";
-import TestButton from "@/components/PageElements/auth/TestButton";
-export default withAuth(function Ready() {
 
+export default withAuth(function Ranking() {
   return (
     <>
       <Head>
@@ -17,12 +16,11 @@ export default withAuth(function Ready() {
         <img src="images/perfectBackground.webp" className="w-screen h-max z-5"></img>
       </div>
       <div className="flex justify-end justify-items-center">
-        <TestButton />
-        <RankingButton />
+        <RoomListButton />
         <LogoutButton />
       </div>
       <div>
-        <RoomList />
+        <RankingBoard />
       </div>
     </>
   );

@@ -5,6 +5,7 @@ import SignUpButton from '@/components/PageElements/auth/SignUpButton';
 import LogInButton from '@/components/PageElements/auth/LogInButton';
 
 
+
 export default function Home() {
   const iconClass = "bg-[url('../public/images/whitevolume.png')]";
   return (
@@ -23,6 +24,7 @@ export default function Home() {
         <BagicHome />
       </div>
       <div className="flex justify-end justify-items-center">
+
       <LogInButton />
       <SignUpButton/>
       </div>

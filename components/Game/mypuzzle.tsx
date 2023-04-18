@@ -10,7 +10,7 @@ import { startItem, stopItem } from "../FaceDetection/FaceLandMarkPeer";
 import MakeVideoTwirl from "../FaceDetection/MakeVideoTwirl";
 import MakeVideoLip from "../FaceDetection/MakeVideoLip";
 import MyGameParticles from "../PageElements/Particles/gameParticles";
-
+import axios from "axios";
 
 // import Segment from './Segment'
 const PuzzleSegment = dynamic(import("@/components/Game/Segment"), {
@@ -107,6 +107,25 @@ function MyPuzzle({ auth, videoId, dataChannel }: Props) {
     }, []);
 
     useEffect(() => {
+         const storedToken = window.localStorage.getItem("token");
+        async function updateWinCount() {
+          try {
+            const response = await axios.post(
+              "/api/update-win-count",
+              {},
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${storedToken}`,
+                },
+              }
+            );
+          } catch (error) {
+            console.error("Error:", error);
+          }
+        }
+
+
         if (puzzleCompleteCounter.mine === 9 && puzzleCompleteCounter.peer !== 9) {
             if (dataChannel) dataChannel.send(JSON.stringify({ type: "peerWin", won: true }));
             setIsFinished(true);
@@ -119,6 +138,7 @@ function MyPuzzle({ auth, videoId, dataChannel }: Props) {
                 document.getElementById("face")!.style.display = "block";
                 fanFareSoundPlay();
                 ceremonySoundPlay();
+                updateWinCount(); // 
                 setTimeout(() => {
                     router
                         .replace({
@@ -127,7 +147,7 @@ function MyPuzzle({ auth, videoId, dataChannel }: Props) {
                         .then(() => router.reload());
                 }, 15000);
             }, 5000);
-
+            
         }
     }, [puzzleCompleteCounter.mine]);
 

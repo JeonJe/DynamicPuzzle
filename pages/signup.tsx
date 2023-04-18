@@ -39,7 +39,7 @@ export default function SignUp() {
 
   try{
     const response = await axios.post('/api/signup',{
-    username: data.get('username'),
+    name: data.get('name'),
     email: data.get('email'),
     password: data.get('password'),
     passwordValidity: data.get('passwordValidity'),
@@ -48,7 +48,7 @@ export default function SignUp() {
         'Content-Type': 'application/json',
       }
     });
-      const { token } = response.data;
+    const { token } = response.data;
     localStorage.setItem('token', token);
     setToken(token);
     alert('회원가입이 정상적으로 완료되었습니다.');
@@ -85,7 +85,7 @@ export default function SignUp() {
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <TextField name="username" required fullWidth id="username" label="아이디" autoFocus autoComplete="given-name" />
+                <TextField name="name" required fullWidth id="name" label="아이디" autoFocus autoComplete="given-name" />
               </Grid>
 
               <Grid item xs={12}>

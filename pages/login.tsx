@@ -39,7 +39,7 @@ export default function SignInSide() {
       const response = await axios.post(
         "/api/login",
         {
-          username: data.get("username"),
+          name: data.get("name"),
           password: data.get("password"),
         },
         {
@@ -91,7 +91,7 @@ export default function SignInSide() {
               로그인
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-              <TextField margin="normal" required fullWidth id="username" label="아이디" name="username" autoComplete="username" autoFocus />
+              <TextField margin="normal" required fullWidth id="name" label="아이디" name="name" autoComplete="name" autoFocus />
               <TextField margin="normal" required fullWidth name="password" label="비밀번호" type="password" id="password" autoComplete="current-password" />
               <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                 로그인

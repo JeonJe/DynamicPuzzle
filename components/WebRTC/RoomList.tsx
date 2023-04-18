@@ -3,8 +3,6 @@ import { io } from "socket.io-client";
 import { useEffect, useCallback, useState } from "react";
 import { useRouter } from "next/router";
 import useSocket from "../../pages/hooks/useSocket";
-import { animated, useSpring } from "@react-spring/web";
-import WebRTC from "./WebRTC";
 import RoomMake from "./MakeRoom";
 import styles from "./styles.module.css";
 import Tutorial from "@/components/PageElements/Modal/Tutorial";
