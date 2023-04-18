@@ -3,8 +3,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
@@ -13,7 +11,7 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-
+import axios from "axios";
 
 function Copyright(props: any) {
   return (
@@ -30,33 +28,34 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export default function SignInSide() {
-const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
   const [token, setToken] = useState(null);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-     const response = await fetch("http://localhost:3001/api/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: data.get("username"),
-        password: data.get("password"),
-      }),
-    });
+    try {
+      const response = await axios.post(
+        "/api/login",
+        {
+          username: data.get("username"),
+          password: data.get("password"),
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-    if (response.ok) {
-    const { token } = await response.json();
-    localStorage.setItem("token", token);
-    setToken(token);
-    router.push("/ready");
-      
-    } else {
-     const { message } = await response.json();
-    setErrorMessage(message);
+      const { token } = response.data;
+      localStorage.setItem("token", token);
+      setToken(token);
+      router.push("/ready");
+    } catch (error: any) {
+      const { message } = error.response.data;
+      setErrorMessage(message);
     }
   };
 
@@ -97,6 +96,7 @@ const [errorMessage, setErrorMessage] = useState("");
               <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                 로그인
               </Button>
+              <p>{errorMessage}</p>
               <Grid container>
                 <Grid item xs>
                   <Link href="#" variant="body2">

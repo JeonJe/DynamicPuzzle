@@ -3,8 +3,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -13,6 +11,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import axios from 'axios';
 
 function Copyright(props: any) {
   return (
@@ -32,43 +31,40 @@ const theme = createTheme();
 export default function SignUp() {
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
-const [token, setToken] = useState(null);
+  const [token, setToken] = useState(null);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    
-    const response = await fetch("http://localhost:3001/api/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: data.get("username"),
-        email: data.get("email"),
-        password: data.get("password"),
-        passwordValidity: data.get("passwordValidity"),
-      }),
-    });
 
-    if (response.ok) {
-      // 회원가입 성공 처리
-      const {token} = await response.json();
-      localStorage.setItem("token", token);
-      setToken(token);
-      alert("회원가입이 정상적으로 완료되었습니다.");
-    } else {
-      
-      const { message } = await response.json();
-      setErrorMessage(message);
-    }
-  };
-  useEffect(() => {
-      const getToken = localStorage.getItem("token");
-      if (getToken) {
-        router.push("/ready");
+  try{
+    const response = await axios.post('/api/signup',{
+    username: data.get('username'),
+    email: data.get('email'),
+    password: data.get('password'),
+    passwordValidity: data.get('passwordValidity'),
+    },{
+      headers:{
+        'Content-Type': 'application/json',
       }
-    }, [token]);
+    });
+      const { token } = response.data;
+    localStorage.setItem('token', token);
+    setToken(token);
+    alert('회원가입이 정상적으로 완료되었습니다.');
+
+  }catch(error : any){
+    const {message} = error.response.data;
+    setErrorMessage(message);
+  }
+};
+
+  useEffect(() => {
+    const getToken = localStorage.getItem("token");
+    if (getToken) {
+      router.push("/ready");
+    }
+  }, [token]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -104,7 +100,7 @@ const [token, setToken] = useState(null);
               </Grid>
               <Grid item xs={12}></Grid>
             </Grid>
-            {errorMessage && <p style={{ color: "red", fontWeight: "bold" }}>{errorMessage}</p >}
+            {errorMessage && <p style={{ color: "red", fontWeight: "bold" }}>{errorMessage}</p>}
             <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
               회원가입
             </Button>
