@@ -4,7 +4,6 @@ import IndexBGM from "@/components/PageElements/IndexBGM";
 import LogoutButton from "@/components/PageElements/auth/LogoutButton";
 import RankingButton from "@/components/PageElements/auth/RankingButton";
 import withAuth from "@/components/PageElements/auth/withAuth";
-import TestButton from "@/components/PageElements/auth/TestButton";
 export default withAuth(function Ready() {
 
   return (
@@ -12,12 +11,11 @@ export default withAuth(function Ready() {
       <Head>
         <title>Dynamic Puzzle</title>
       </Head>
-      {/* <IndexBGM /> */}
+      <IndexBGM />
       <div className="absolute flex">
         <img src="images/perfectBackground.webp" className="w-screen h-max z-5"></img>
       </div>
       <div className="flex justify-end justify-items-center">
-        <TestButton />
         <RankingButton />
         <LogoutButton />
       </div>

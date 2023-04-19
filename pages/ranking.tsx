@@ -11,7 +11,7 @@ export default withAuth(function Ranking() {
       <Head>
         <title>Dynamic Puzzle</title>
       </Head>
-      {/* <IndexBGM /> */}
+      <IndexBGM />
       <div className="absolute flex">
         <img src="images/perfectBackground.webp" className="w-screen h-max z-5"></img>
       </div>

@@ -11,6 +11,7 @@ import MakeVideoTwirl from "../FaceDetection/MakeVideoTwirl";
 import MakeVideoLip from "../FaceDetection/MakeVideoLip";
 import { useSetRecoilState } from 'recoil';
 import { peerItemState } from "../Game/atom";
+import axios from "axios";
 
 let isRightPlace: boolean[] = [false, false, false, false, false, false, false, false, false];
 let i: number;
@@ -37,6 +38,7 @@ function PeerPuzzle({ auth, videoId, dataChannel }: Props) {
   // for peer Item state
   const [peerSegmentState, setPeerSegmentState] = useState({ type: "item", segmentState: "default" });
   const [isFinished, setIsFinished] = useState(false);
+  const [isPeerFinished, setIsPeerFinished] = useState(false);
 
   const dispatch = useDispatch();
   const puzzleCompleteCounter = useSelector((state: any) => state.puzzleComplete);
@@ -118,9 +120,12 @@ function PeerPuzzle({ auth, videoId, dataChannel }: Props) {
 
   //useSelector는 state가 변경되었다면 functional component가 render한 이후에 실행됩니다.
   useEffect(() => {
+   
     if ((puzzleCompleteCounter.peer === 9 && puzzleCompleteCounter.mine !== 9) || peerWinFlag) {
       setIsFinished(true);
+      setIsPeerFinished(true);
       loseSoundPlay();
+
       setTimeout(() => {
         const peer = document.getElementById("peerface");
         peer!.style.display = "block";
@@ -129,6 +134,7 @@ function PeerPuzzle({ auth, videoId, dataChannel }: Props) {
         document.getElementById("face")!.style.display = "block";
         fanFareSoundPlay();
         ceremonySoundPlay();
+
         setTimeout(() => {
           router
             .replace({
@@ -137,9 +143,35 @@ function PeerPuzzle({ auth, videoId, dataChannel }: Props) {
             .then(() => router.reload());
         }, 15000);
       }, 5000);
+       
     }
   }, [puzzleCompleteCounter.peer, peerWinFlag]);
 
+  useEffect(() => {
+     const storedToken = window.localStorage.getItem("token");
+     
+     async function updateLoseCount() {
+       try {
+         const response = await axios.post(
+           "/api/update-lose-count",
+           {},
+           {
+             headers: {
+               "Content-Type": "application/json",
+               Authorization: storedToken,
+             },
+           }
+         );
+       } catch (error) {
+         console.error("Error:", error);
+       }
+     }
+     
+    if(isPeerFinished){
+        updateLoseCount();
+    }
+  }, [isPeerFinished]);
+  
   //item 사용을 위한 코드
   const itemList = useSelector((state: any) => {
     return state.item;

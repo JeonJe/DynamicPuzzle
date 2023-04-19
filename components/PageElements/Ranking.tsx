@@ -11,7 +11,7 @@ interface User {
 export default function Ranking() {
   const [userData, setUserData] = useState<User[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const perPage = 10;
+  const perPage = 5;
 
   useEffect(() => {
     const storedToken = window.localStorage.getItem("token");
